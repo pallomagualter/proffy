@@ -12,6 +12,8 @@
     "typescript": "^4.2.4"
   },
   "dependencies": {
-    "express": "^4.17.1"
+    "express": "^4.17.1",
+    "knex": "^0.95.4",
+    "sqlite3": "^5.0.2"
   }
 }
