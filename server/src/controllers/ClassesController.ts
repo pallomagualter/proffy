@@ -3,6 +3,7 @@ import { Request, Response } from 'express'
 import db from '../database/connection';
 import convertHourToMinutes from '../utils/convertHourToMinutes';
 
+//para definir o tipo que será utilizado no map
 interface ScheduleItem {
   week_day: number;
   from: string;
@@ -72,6 +73,10 @@ export default class ClassesController {
     
       const class_id = insertedClassesIds[0];
     
+      /**
+       * Irá mapear(percorrer) cada item do schedule e transformar e retornar um novo objeto
+       * chamando a função de conversão de hora para minutos
+       */
       const classSchedule = schedule.map((scheduleItem: ScheduleItem) => {
         return {
           class_id,
