@@ -1,4 +1,4 @@
-import { Request, Response } from 'express'
+import { Request, Response } from 'express';
 
 import db from '../database/connection';
 import convertHourToMinutes from '../utils/convertHourToMinutes';
@@ -94,7 +94,7 @@ export default class ClassesController {
     } catch (err) {
       console.log(err);
 
-      await trx.rollback();
+      await trx.rollback(); //desfazer qual ação que aconteceu durante esse processo
   
       return response.status(400).json({
         error: 'Unexpected error while creating new class'
