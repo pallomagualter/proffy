@@ -28,16 +28,16 @@ export default class ClassesController {
 
     const classes = await db('classes')
       .whereExists(function() {
-        this.select('class_schedule.*')
-          .from('class_schedule')
-          .whereRaw('`class_schedule`.`class_id` = `classes`.`id`')
-          .whereRaw('`class_schedule`.`week_day` = ??', [Number(week_day)])
-          .whereRaw('`class_schedule`.`from` <= ??', [timeInMinutes])
-          .whereRaw('`class_schedule`.`to` > ??', [timeInMinutes])
+        this.select('class_schedule.*') //olhar * (todas) as aulas
+          .from('class_schedule') //de
+          .whereRaw('`class_schedule`.`class_id` = `classes`.`id`') //id da aula sendo igual o id passado
+          .whereRaw('`class_schedule`.`week_day` = ??', [Number(week_day)]) //verificação do dia da semana
+          .whereRaw('`class_schedule`.`from` <= ??', [timeInMinutes]) //verificação horário disponível (antes ou igual ao horário solicitado)
+          .whereRaw('`class_schedule`.`to` > ??', [timeInMinutes]) //horário tem que ser menor, pois se ele para neste horário não poderá agendar aula
       })
-      .where('classes.subject', '=', subject)
-      .join('users', 'classes.user_id', '=', 'users.id')
-      .select(['classes.*', 'users.*']);
+      .where('classes.subject', '=', subject) //verificação matéria
+      .join('users', 'classes.user_id', '=', 'users.id') //verificação usuário
+      .select(['classes.*', 'users.*']); //aulas por usuário
 
     return response.json(classes);
   }
